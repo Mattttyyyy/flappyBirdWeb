@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Flappy Bird</title>
     <style>
         /* CSS here later */
@@ -9,7 +10,9 @@
 <body>
     <p id="score"></p>
     <canvas style="border: 1px solid;" id="gameCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script>
+
         // JavaScript here
         let canvas = document.getElementById("gameCanvas");
         canvas.width = window.innerWidth;
@@ -60,6 +63,11 @@
         // });
         canvas.addEventListener("click", flapBird);
         canvas.addEventListener("touchstart", flapBird);
+        // if ('addEventListener' in document) {
+        //     document.addEventListener('DOMContentLoaded', function() {
+        //         FastClick.attach(document.body);
+        //     }, false);
+        // }
         // Draw Pipes
 
 
