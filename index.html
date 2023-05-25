@@ -3,12 +3,16 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Flappy Bird</title>
+    
     <style>
         /* CSS here later */
     </style>
 </head>
 <body>
     <p id="score"></p>
+    <div id="gameOver" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px;">
+        <p style="color: red; font-weight: bold;">Game over!</p> <p id="countdown"></p></span>
+    </div>
     <canvas style="border: 1px solid;" id="gameCanvas"></canvas>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script> -->
     <script>
@@ -122,23 +126,42 @@
                 rect1.y + rect1.height > rect2.y;
         }
 
+        function gameOver() {
+            canvas.onclick = null; 
+            document.getElementById("gameOver").style.display = "block";
+            setTimeout(function() {
+                location.reload(); // reload the page to restart the game
+            }, 5000);
+
+
+
+        }
+
         function checkCollision() {
             for(let i = 0; i < pipes.length; i++) {
                 if(collisionDetection(bird, pipes[i])) {
-                    canvas.onclick = null; 
-                    alert("Game over!");
-                    location.reload(); // reload the page to restart the game
+                    gameOver();
                 }
+            }
+            
+            if (bird.y < 0 || bird.y + bird.height > canvas.height) {
+                gameOver();
             }
         }
         let score = 0;
+        let countdown = 5;
 
         function updateScore() {
             score++;
             document.getElementById('score').innerText = "Score: " + score;
         }
+        function updateCountdown() {
+            countdown--;
+            document.getElementById('countdown').innerText = "The game will restart in: " + countdown;
+        }
 
         setInterval(updateScore, 1000);
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
