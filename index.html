@@ -50,9 +50,16 @@
         }
 
         gameLoop();
-        canvas.addEventListener("click", function() {
+
+        function flapBird() {
             velocity = -20;
-        });
+        }
+
+        // canvas.addEventListener("click", function() {
+        //     velocity = -20;
+        // });
+        canvas.addEventListener("click", flapBird);
+        canvas.addEventListener("touchstart", flapBird);
         // Draw Pipes
 
 
@@ -67,7 +74,7 @@
                 x: canvas.width,
                 y: pipe.height + 300,
                 width: 50,
-                height: canvas.height - pipe.height - 100
+                height: canvas.height - pipe.height - 200
             };
             pipes.push(pipe);
             pipes.push(pipeBottom);
