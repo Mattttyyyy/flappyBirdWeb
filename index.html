@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flappy Bird</title>
+    <style>
+        /* CSS here later */
+    </style>
+</head>
+<body>
+    <p id="score"></p>
+    <canvas style="border: 1px solid;" id="gameCanvas"></canvas>
+    <script>
+        // JavaScript here
+        let canvas = document.getElementById("gameCanvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let context = canvas.getContext("2d");
+        
+        console.log(context, "maw", canvas.width, canvas.height);
+        let pipes = [];
+        let bird = {
+            x: 50,
+            y: 50,
+            width: 20,
+            height: 20
+        };
+
+        function drawBird() {
+            context.fillStyle = "red";
+            context.fillRect(bird.x, bird.y, bird.width, bird.height);
+        }
+
+        drawBird();
+        let gravity = 1;
+        let velocity = 0;
+
+        function updateBird() {
+            velocity += gravity;
+            bird.y += velocity;
+        }
+
+        function gameLoop() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            drawBird();
+            drawPipes(); 
+            updateBird();
+            updatePipes(); 
+            checkCollision(); 
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+        canvas.addEventListener("click", function() {
+            velocity = -20;
+        });
+        // Draw Pipes
+
+
+        function createPipes() {
+            let pipe = {
+                x: canvas.width,
+                y: 0,
+                width: 50,
+                height: Math.random() * canvas.height / 2,
+            };
+            let pipeBottom = {
+                x: canvas.width,
+                y: pipe.height + 300,
+                width: 50,
+                height: canvas.height - pipe.height - 100
+            };
+            pipes.push(pipe);
+            pipes.push(pipeBottom);
+        }
+
+        function drawPipes() {
+            context.fillStyle = "green";
+            for(let i = 0; i < pipes.length; i++) {
+                let p = pipes[i];
+                context.fillRect(p.x, p.y, p.width, p.height);
+            }
+        }
+
+        function updatePipes() {
+            // for(let i = 0; i < pipes.length; i++) {
+            //     let p = pipes[i];
+            //     p.x -= 2;
+            //     if(p.x + p.width < 0) {
+            //         pipes.splice(i, 2);
+            //         i -= 2;
+            //     }
+            // }
+            for(let i = pipes.length - 1; i >= 0; i--) {
+                let p = pipes[i];
+                p.x -= 2;
+                if(p.x + p.width < 0) {
+                    pipes.splice(i, 1);
+                }
+            }
+        }
+
+        setInterval(createPipes, 2000);
+        function collisionDetection(rect1, rect2) {
+            return rect1.x < rect2.x + rect2.width &&
+                rect1.x + rect1.width > rect2.x &&
+                rect1.y < rect2.y + rect2.height &&
+                rect1.y + rect1.height > rect2.y;
+        }
+
+        function checkCollision() {
+            for(let i = 0; i < pipes.length; i++) {
+                if(collisionDetection(bird, pipes[i])) {
+                    canvas.onclick = null; 
+                    alert("Game over!");
+                    location.reload(); // reload the page to restart the game
+                }
+            }
+        }
+        let score = 0;
+
+        function updateScore() {
+            score++;
+            document.getElementById('score').innerText = "Score: " + score;
+        }
+
+        setInterval(updateScore, 1000);
+    </script>
+</body>
+</html>
