@@ -157,7 +157,12 @@
         }
         function updateCountdown() {
             countdown--;
-            document.getElementById('countdown').innerText = "The game will restart in: " + countdown;
+            if(countdown < 0){
+                document.getElementById('countdown').innerText = "Click the screen to restart";    
+            } else {
+                document.getElementById('countdown').innerText = "The game will restart in: " + countdown;
+            }
+            
         }
 
         setInterval(updateScore, 1000);
