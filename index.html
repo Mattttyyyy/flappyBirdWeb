@@ -59,14 +59,20 @@
         gameLoop();
 
         function flapBird() {
-            velocity = -10;
+            velocity = -16;
         }
 
         // canvas.addEventListener("click", function() {
         //     velocity = -20;
         // });
-        // canvas.addEventListener("click", flapBird);
-        canvas.addEventListener("touchstart", flapBird);
+        if(navigator.userAgentData?.mobile){
+            canvas.addEventListener("touchend", flapBird);
+        } else {
+            canvas.addEventListener("click", flapBird);
+        }
+        
+        
+        console.log(navigator, "mao")
         // if ('addEventListener' in document) {
         //     document.addEventListener('DOMContentLoaded', function() {
         //         FastClick.attach(document.body);
